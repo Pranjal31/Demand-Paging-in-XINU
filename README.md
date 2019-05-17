@@ -111,16 +111,19 @@ Memory at page 4096 and above constitute a process’ virtual memory. This addre
 Since our version of Xinu does not have file system support, we need to emulate the backing store with physical memory. In particular, consider the following Xinu memory layout:
 
 ———————————
+
 Virtual Memory
 
 (pages 4096 & beyond)
 
 ———————————
+
 16 Backing stores
 
 (pages 2048 – 4095)
 
 ———————————
+
 1024 frames
 
 (pages 1024 – 2047)
@@ -128,19 +131,27 @@ Virtual Memory
 ———————————
 
 Kernel Memory 
+
 (pages 406 – 1023)
 
 ———————————
+
 Kernel Memory
+
 (pages 160 – 405)
 
 ———————————
+
 Kernel Memory
+
 (pages 25 – 159)
 
 ———————————
+
 Xinu text, data, bss 
+
 (pages 0 – 24)
+
 ———————————-
 
 A Xinu instance has 16 MB (4096 pages) of real memory in total. The top 8MB real memory  was reserved for backing stores. There are 16 backing stores and each backing store maps up to 128 pages (each page is 4K size).
@@ -216,15 +227,25 @@ The following should occur at system initialization:
 
 A page fault triggers an interrupt 14. When an interrupt occurs the machine pushes CS:IP and then an error code (see Intel Volume III chapter 5)
 
+
 ———-
+
 error code
+
 ———-
+
 IP
+
 ———-
+
 CS
+
 ———-
+
 …
+
 …
+
 
 It then jumps to a predetermined point, the ISR. To specify the ISR we use the routine:
 
