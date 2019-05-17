@@ -12,7 +12,7 @@ Much like its Unix counterpart (see man mmap), it maps a source file (“backing
 
 This call, like munmap, should remove a virtual memory mapping. See man munmap for the details of the Unix call.
 
-SYSCALL vcreate (int *procaddr, int ssize, int hsize, int priority, char *name, int nargs, long args)
+*SYSCALL vcreate (int \*procaddr, int ssize, int hsize, int priority, char \*name, int nargs, long args)*
 
 This call will create a new Xinu process. The difference from create() is that the process’ heap will be private and exist in its virtual memory.
 The size of the heap (in number of pages) is specified by the user through hsize.
@@ -35,7 +35,9 @@ vfreemem() takes two parameters and returns OK or SYSERR. The two parameters are
 The following sections discuss at a high level the organization of the system, the various pieces that were implemented in Xinu and how they relate to each other.
 
 *(1) Memory and Backing Store*
+
 (1.1) Backing Stores
+
 Virtual memory commonly uses disk space to extend the physical memory. However, our version of Xinu has no file system support. Therefore, the backing store was emulated (how it is emulated will be detailed in 1.3). To access the backing store, the following functions were implemented:
 
 * bsd_t is the type of backing store descriptors. Each descriptor is used to reference a backing store. Its type declaration is in h. This type is merely unsigned int. There are 16 backing stores. You will use IDs 0 through 15 to identify them.
@@ -45,6 +47,7 @@ Virtual memory commonly uses disk space to extend the physical memory. However, 
 * SYSCALL write_bs (char *src, bsd_t store, int page) copies a page referenced by src to the page-th page of the backing store referenced by store. It returns OK on success, SYSERR otherwise.
 
 (1.2) Memory Layout
+
 The basic Xinu memory layout is as follows (page size = 4096 bytes):
 
 ———————————
