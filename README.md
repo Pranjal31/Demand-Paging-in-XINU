@@ -59,37 +59,44 @@ Virtual memory commonly uses disk space to extend the physical memory. However, 
 
 The basic Xinu memory layout is as follows (page size = 4096 bytes):
 
-———————————————————————
+
+——————————————————
+
 Virtual memory
 
 (pages 4096 & beyond)
 
-———————————————————————
+——————————————————
+
 3072 frames
 
 (pages 1024 – 4095)
 
-———————————————————————
+——————————————————
 
 Kernel Memory 
 
 (pages 406 – 1023)
 
-———————————————————————
+——————————————————
+
 Kernel Memory
 
 (pages 160 – 405)
 
-———————————————————————
+——————————————————
+
 Kernel Memory
 
 (pages 25 – 159)
 
-———————————————————————
+——————————————————
+
 Xinu text, data, bss 
 
 (pages 0 – 24)
-———————————————————————-
+
+——————————————————-
 
 As you can see, this Xinu version compiles to about 100KB, or 25 pages. There is an area of memory from page 160 through the end of page 405 that cannot be used (this is referred to as the “HOLE” in initialize.c). The free frames would be placed into pages 1024 through 4095, giving 3072 frames.
 
