@@ -41,6 +41,7 @@ This function will be used to set the page replacement policy to Second-Chance (
 vfreemem() takes two parameters and returns OK or SYSERR. The two parameters are similar to those of the original freemem() in Xinu. The type of the first parameter block_ptr depends on your own implementation.
 
 **OVERALL ORGANIZATION**
+
 The following sections discuss at a high level the organization of the system, the various pieces that were implemented in Xinu and how they relate to each other.
 
 **(1) Memory and Backing Store**
