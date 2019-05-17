@@ -1,13 +1,14 @@
 **Objective:** The goal of this project is to implement Demand Paging in XINU OS.
+
 **Introduction:** 
 Demand paging is a method of mapping a large address space into a relatively small amount of physical memory. It allows a program to use an address space that is larger than the physical memory, and access non-contiguous sections of the physical memory in a contiguous way. Demand paging is accomplished by using a “backing store” (usually disk) to hold pages of memory that are not currently in use.
 
 **System Calls:**
-SYSCALL xmmap (int virtpage, bsd_t source, int npages)
+*SYSCALL xmmap (int virtpage, bsd_t source, int npages)*
 
 Much like its Unix counterpart (see man mmap), it maps a source file (“backing store” here) of size npages pages to the virtual page virtpage. A process may call this multiple times to map data structures, code, etc.
 
-SYSCALL xmunmap (int virtpage)
+*SYSCALL xmunmap (int virtpage)*
 
 This call, like munmap, should remove a virtual memory mapping. See man munmap for the details of the Unix call.
 
@@ -33,7 +34,7 @@ vfreemem() takes two parameters and returns OK or SYSERR. The two parameters are
 **Overall Organization**
 The following sections discuss at a high level the organization of the system, the various pieces that were implemented in Xinu and how they relate to each other.
 
-(1) Memory and Backing Store
+*(1) Memory and Backing Store*
 (1.1) Backing Stores
 Virtual memory commonly uses disk space to extend the physical memory. However, our version of Xinu has no file system support. Therefore, the backing store was emulated (how it is emulated will be detailed in 1.3). To access the backing store, the following functions were implemented:
 
@@ -125,7 +126,8 @@ A Xinu instance has 16 MB (4096 pages) of real memory in total. The top 8MB real
 
 Page tables and page directories (i.e. outer page tables) can be placed in any free frames. For this project, page tables and page directories were not paged. As page tables are always resident in memory, it is not practical to allocate all potential page tables for a process when it is created (however, a page directory would be allocated). To map all 4 GB of memory would require 4 MB of page tables! To conserve memory, page tables must be created on-demand. That is, the first time a page is legally touched (i.e. it has been mapped by the process) for which no page table is present, a page table should be allocated. Conversely, when a page table is no longer needed it should be removed to conserve space.
 
-(2) Supporting Data Structures
+*(2) Supporting Data Structures*
+
 (2.1) Finding the backing store for a virtual address
 
 There is a problem – if a process can map multiple address ranges to different backing stores, how does one figure out which backing store a page needs to be read from (or written to) when it is being brought into (removed from) a frame?
@@ -150,7 +152,7 @@ When writing out a dirty page, the only way to figure out which virtual page and
 
 Note: This table was also used to hold other information for page replacement
 
-(3) Process Considerations
+*(3) Process Considerations*
 
 With each process having its own page directory and page tables, there are some new considerations in dealing with processes.
 
@@ -187,7 +189,7 @@ The following should occur at system initialization:
 * Install the page fault interrupt service routine.
 * Enable paging.
 
-(4) The Interrupt Service Routine (ISR)
+*(4) The Interrupt Service Routine (ISR)*
 
 A page fault triggers an interrupt 14. When an interrupt occurs the machine pushes CS:IP and then an error code (see Intel Volume III chapter 5)
 
@@ -205,7 +207,7 @@ It then jumps to a predetermined point, the ISR. To specify the ISR we use the r
 
 set_evec(int interrupt, (void (*isr)(void))) (see evec.c)
 
-(5) Faults and Replacement Policies
+*(5) Faults and Replacement Policies*
 
 (5.1) Page Faults
 
